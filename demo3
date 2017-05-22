@@ -1,0 +1,41 @@
+#!/usr/bin/perl
+
+use CGI qw(:all);
+
+print header, "\n",
+    start_html({-title=>'My HTML Form',
+        -author=>'sam@gmail.com'}), "\n";
+
+if (param('submit')) {
+
+    $name = param('username');
+    print h1("Environment variables"), "\n";
+    foreach $key (keys %ENV) {
+        print "The value of $key is $ENV{$key}", br(), "\n";
+    }
+    print h1("Parameters"), "\n";
+    foreach $key (param()) {
+        print "The value of $key is ",param($key), br(), "\n";
+    }
+    print "The value of name is $name", "\n";
+}
+
+print h1("Form"), "\n";
+
+print start_form({-method=>"GET",
+    -action=>"http://cgi.csc.liv.ac.uk/".
+        "cgi-bin/cgiwrap/u3mk/demo3"});
+
+print "User name: ";
+print textfield({-name=>'URL',
+    -value=>'Enter URL Here'}), "\n";
+print br(), "\n";
+print "Password: ";
+print textfield({-name=>'password',
+        -value=>'sam',
+            -size=>100}), "\n";
+print br(), "\n";
+
+print submit({-name=>'submit',
+    -value=>'Click for response'}), "\n";
+print end_form, end_html;
